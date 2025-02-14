@@ -63,7 +63,7 @@ As you are following the instructions below, we recommend intermittently compili
 
 Let your creative juices flow! Fill in `class.h` and `class.cpp` to create your own custom class. Please refer to the relevant slides from Tuesday's lecture on classes for more information. Your class can represent pretty much anything you want, as long as it meets the following requirements.
 
-> [!IMPORTANT]
+> [!IMPORTAN]
 > ### Class Requirements
 >
 > Your class must:

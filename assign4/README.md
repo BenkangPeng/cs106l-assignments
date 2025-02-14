@@ -92,18 +92,19 @@ To implement `tokenize`, we will use the traditional STL methods like `std::tran
 Here's a step-by-step guide you can follow to accomplish this:
 
 1. **Step One: Identify all iterators to space characters**  
-    If we can get all iterators in the string pointing to whitespace characters, then we can more-or-less think of the tokens present in the string as the characters between any two whitespace characters. We almost want to call `find_if` multiple times to collect all of iterators to whitespace characters. Fortunately, we have provided you with a method to do just that, `find_all`.
+    If we can get all iterators in the string pointing to whitespace characters, then we can more-or-less think of the tokens present in the string as the characters between any two whitespace characters. We almost want to call `find_if` multiple times to collect all of iterators to whitespace characters. Fortunately, we have provided you with a method to do just that, `find_all`.:file_cabinet:
 
     > 📄 [**`find_all`**](./utils.cpp)
+    >
     > ```cpp
     > template <typename Iterator, typename UnaryPred>
     > std::vector<Iterator> find_all(Iterator begin, Iterator end, UnaryPred pred);
     > ```
     >
     > Returns a vector of all the iterators between `begin` and `end` whose element matches the unary predicate `pred`. **This vector also includes the boundary iterators, `begin` and `end`**. In other words, if `it` is an iterator in the returned vector, then either `pred(*it)` or `it == begin` or `it == end`. The iterators in the vector are guaranteed to be in order.
-
+    
     We can get a vector of all the iterators to whitespace character by calling `find_all` on our `source` string and passing in a unary predicate that checks if a character is whitespace. Thankfully, such a function comes built-in with C++: it is called `isspace`.
-
+    
     > 📄 [**`isspace`**](https://en.cppreference.com/w/c/string/byte)  
     > When passing `isspace` to `find_all`, we must pass it as `isspace` and not `std::isspace`. This is because there are actually multiple versions of the `isspace` method:
     >
@@ -117,7 +118,7 @@ Here's a step-by-step guide you can follow to accomplish this:
     > Technically, the first version is defined both [as part of the `namespace std`](https://en.cppreference.com/w/cpp/header/cctype) and [as a free-floating function inherited from C](https://en.cppreference.com/w/c/string/byte) (and not in any particular namespace). The second version is part of `std` and defined in the `<locale>` header. Writing `isspace` by itself refers to the C version, whereas `std::isspace` refers to both of the above functions and so the compiler has a hard time inferring the `UnaryPred` type parameter.
     >
     > Sometimes you will see people write `::isspace`: this just tells C++ to look in the *global namespace* (not inside `std`) for `isspace`, and accomplishes the same thing.
-
+    
 2. **Step Two: Generate tokens between consecutive space characters**  
     Now that we have all of the iterators to space characters, we can consider a token as any range of characters between two consecutive iterators to space characters. To see why, consider this diagram:
 
@@ -232,9 +233,9 @@ Here's a step-by-step guide to implement this algorithm:
 
     ```cpp
     auto view = std::ranges::views::filter(source, /* A lambda function predicate */);
-
+    
     /* ...is the same as... */
-
+    
     auto view = source | std::ranges::views::filter(/* A lambda function predicate */);
     ```
 
@@ -310,14 +311,15 @@ Here's a step-by-step guide to implement this algorithm:
 3. **Step Three: Drop misspellings with no suggestions.**  
     At this point, `view` contains all of our misspelled words with their suggestions: it is a view over a collection of `Mispelling` objects. However, some of these `Mispelling` objects won't have any suggestions. For example, the gibberish word `"adskadnfknfs"` is definitely misspelled, but there's no word in the English dictionary that is one edit away from it. We would like to remove these suggestion-less mispellings from our view before returning them.
 
-    Once again, we can apply `std::ranges::views::filter` to `view`. You should have all the information you need to do this! After you filter the empty mispellings, you'll want to materialize `view` into an `std::set<Mispelling>` and return it, which you can do through similar process described for `suggestions` in Part Two above!
+    Once again, we can apply `std::ranges::views::filter` to `view`. You should have all the information you need to do  this! After you filter the empty mispellings, you'll want to materialize `view` into an `std::set<Mispelling>` and return it, which you can do through similar process described for `suggestions` in Part Two above!
 
     > ⚠️ [**`std::ranges::to`**](https://en.cppreference.com/w/cpp/ranges/to)  
     > You might remember that we used `std::ranges::to` in lecture to materialize a view of `char` into an `std::string`:
+    >
     > ```cpp
     > auto v = s | rv::filter(isalpha)
-    >            | /* Some other steps */
-    >            | std::ranges::to<std::string>();
+    >         | /* Some other steps */
+    >         | std::ranges::to<std::string>();
     > ```
     > You might be tempted to do something similar here with `std::ranges::to<std::set<Mispelling>>()`. This is a good idea! But the `std::ranges::to` method was only recently introduced in C++23. Depending on the version of compiler you are using, this code may compile or it may not! To be safe, and to make sure that your code compiles when we run it through the autograder on our end, please use the `std::set<Mispelling>` constructor with iterators. **In general, please only use C++ features up through C++20 for this assignment.**
 

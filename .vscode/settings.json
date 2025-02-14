@@ -1,6 +1,7 @@
 {
   "C_Cpp.clang_format_fallbackStyle": "{ PointerAlignment: Left, ColumnLimit: 100 }",
   "files.associations": {
+    "*.cpp": "cpp",
     "__bit_reference": "cpp",
     "__hash_table": "cpp",
     "__locale": "cpp",
@@ -56,6 +57,27 @@
     "unordered_set": "cpp",
     "variant": "cpp",
     "vector": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "type_traits": "cpp",
+    "atomic": "cpp",
+    "bit": "cpp",
+    "*.tcc": "cpp",
+    "compare": "cpp",
+    "concepts": "cpp",
+    "exception": "cpp",
+    "functional": "cpp",
+    "iterator": "cpp",
+    "memory_resource": "cpp",
+    "numeric": "cpp",
+    "random": "cpp",
+    "system_error": "cpp",
+    "utility": "cpp",
+    "numbers": "cpp",
+    "charconv": "cpp",
+    "chrono": "cpp",
+    "format": "cpp",
+    "ranges": "cpp",
+    "span": "cpp",
+    "cinttypes": "cpp"
   }
 }

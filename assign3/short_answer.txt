@@ -5,7 +5,13 @@ Make a Class
 ------------
 
 Q1. What’s const-correctness and why is it important?
-A1. TODO
+A1. Const-correctness is the practice of using keyward `const` in C++ to explicity specity 
+which parts of the code are immutable. It ensures that objects, functions and member function
+behave predictably when deaing with constant data. It's important that const-correctness can 
+prevent accidental modifications and improves code readability and maintainability. It can
+also enable compiler optimizations and supports STL and generic programming.
 
 Q2. Is your class const-correct? How do you know?
-A2. TODO
+A2. Maybe yes... Any member functions that don't modify member variables of the class
+are set as const functions, and any actual parameters that don't be modified are set as const
+variables.
